@@ -1,10 +1,11 @@
-import React from "react";
+import React, { use } from "react";
 import { Link, NavLink } from "react-router";
 import { motion, spring } from "framer-motion";
 import { FaBookBookmark } from "react-icons/fa6";
+import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
 const NavBar = () => {
-  const user = {};
+  const {user, logOutUser} = use(AuthContext);
   const links = (
     <>
       <li>
@@ -34,6 +35,12 @@ const NavBar = () => {
       </li>
     </>
   );
+
+
+  const handleLogOut = () => {
+        logOutUser()
+    }
+
   return (
     <motion.div
       initial={{ y: -100 }}
@@ -92,14 +99,14 @@ const NavBar = () => {
           <div>
             {user ? (
               <>
-                <button className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer">
+                <button onClick={handleLogOut} className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer">
                   LogOut
                 </button>
               </>
             ) : (
               <>
                 <Link
-                  to={"register"}
+                  to={"login"}
                   className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer"
                 >
                   Login

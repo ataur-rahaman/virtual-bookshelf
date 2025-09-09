@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import { GoogleAuthProvider, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
 import Swal from "sweetalert2";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,9 +29,11 @@ const Register = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
 
     if (passwordRegex.test(password) === false) {
-      setErrorMessage(
-        "❌ Password must have at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
-      );
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password must have at least one uppercase letter, one lowercase letter, and be at least 6 characters long.",
+      });
       return;
     }
 
@@ -40,7 +42,6 @@ const Register = () => {
         setUser(result);
         updateProfile(auth.currentUser, profile)
           .then(() => {
-            // toast.success("Profile updated successfully!");
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -53,7 +54,6 @@ const Register = () => {
             });
           })
           .catch((error) => {
-            // toast.error(error.message);
             navigate("/login");
             Swal.fire({
               icon: "error",
@@ -99,11 +99,20 @@ const Register = () => {
       })
       .catch((error) => {
         if (error.code === "auth/popup-closed-by-user") {
-          setErrorMessage(
-            "You have closed the login popup window, Please try again"
-          );
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "Oops...",
+            text: "You have closed the login popup window, Please try again",
+            showConfirmButton: true,
+            timer: 3000,
+          });
         } else {
-          setErrorMessage(error.message);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${error.message}`,
+          });
         }
       });
   };
@@ -186,11 +195,6 @@ const Register = () => {
                   {showPassword ? "❌" : "👀"}
                 </button>
               </motion.div>
-              {errorMessage && (
-                <div className="max-w-11/12 text-[14px] px-2 py-1 text-red-500 rounded">
-                  {errorMessage && errorMessage}
-                </div>
-              )}
               <div>
                 <span>
                   Already have an account?{" "}

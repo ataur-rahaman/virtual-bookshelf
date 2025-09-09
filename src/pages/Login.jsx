@@ -27,6 +27,11 @@ const LogIn = () => {
       setErrorMsg(
         "❌ Password must have at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
       );
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${errorMsg}`,
+      });
       return;
     }
 
@@ -56,6 +61,11 @@ const LogIn = () => {
         } else {
           setErrorMsg("⚠️ Something went wrong. Please try again.");
         }
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${errorMsg}`,
+        });
       });
   };
   const handleLoginGoogle = (e) => {
@@ -76,11 +86,20 @@ const LogIn = () => {
       })
       .catch((error) => {
         if (error.code === "auth/popup-closed-by-user") {
-          setErrorMsg(
-            "You have closed the login popup window, Please try again"
-          );
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "Oops...",
+            text: "You have closed the login popup window, Please try again",
+            showConfirmButton: true,
+            timer: 3000,
+          });
         } else {
-          setErrorMsg(error.message);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${error.message}`,
+          });
         }
       });
   };
@@ -124,13 +143,6 @@ const LogIn = () => {
                   {showPassword ? "❌" : "👀"}
                 </button>
               </motion.div>
-
-              {errorMsg ? (
-                <div className="text-red-500 p-3">{errorMsg}</div>
-              ) : (
-                ""
-              )}
-
               <div>
                 <span>
                   Don't have any account?{" "}

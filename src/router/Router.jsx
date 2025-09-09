@@ -8,6 +8,7 @@ import MyBooks from "../pages/MyBooks";
 import Profile from "../pages/Profile";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -26,17 +27,17 @@ const router = createBrowserRouter([
 
             {
                 path: "/add-book",
-                Component: AddBook
+                element: <PrivateRoute><AddBook></AddBook></PrivateRoute>
             },
 
             {
                 path: "/my-books",
-                Component: MyBooks
+                element: <PrivateRoute><MyBooks></MyBooks></PrivateRoute>
             },
 
             {
                 path: "/profile",
-                Component: Profile
+                element: <PrivateRoute><Profile></Profile></PrivateRoute>
             },
 
             {

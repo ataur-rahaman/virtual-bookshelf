@@ -32,11 +32,6 @@ const NavBar = () => {
           Profile
         </NavLink>
       </li>
-      <li>
-        <NavLink className="hover:text-blue-500 bg-[#0000]" to={"profile"}>
-          demo
-        </NavLink>
-      </li>
     </>
   );
   return (
@@ -97,7 +92,7 @@ const NavBar = () => {
           <div>
             {user ? (
               <>
-                <button className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm">
+                <button className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer">
                   LogOut
                 </button>
               </>
@@ -105,7 +100,7 @@ const NavBar = () => {
               <>
                 <Link
                   to={"register"}
-                  className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm"
+                  className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer"
                 >
                   Login
                 </Link>

@@ -5,11 +5,11 @@ import { GoogleAuthProvider, updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
   const { createUser, googleLogin } = use(AuthContext);
   const provider = new GoogleAuthProvider();
@@ -25,7 +25,11 @@ const Register = () => {
       displayName: name,
       photoURL: photoURL,
     };
-    setErrorMessage(null);
+    const saveToDB = {
+      name: name,
+      email: email,
+      profile_photo: photoURL,
+    };
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
 
     if (passwordRegex.test(password) === false) {
@@ -42,13 +46,27 @@ const Register = () => {
         setUser(result);
         updateProfile(auth.currentUser, profile)
           .then(() => {
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Profile updated successfully!",
-              showConfirmButton: false,
-              timer: 1500,
+            axios.post("http://localhost:3000/users", saveToDB).then((res) => {
+              console.log(res.data);
+              if (res.data.success) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Profile updated successfully!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              } else {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Profile updated successfully!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
             });
+
             navigate(`${location.state ? location.state : "/"}`, {
               state: { user },
             });
@@ -86,13 +104,34 @@ const Register = () => {
     googleLogin(provider)
       .then((result) => {
         setUser(result);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `Welcome back ${result.user.displayName} !`,
-          showConfirmButton: false,
-          timer: 1500,
+        const name = result.user.displayName;
+        const email = result.user.email;
+        const profile_photo = result.user.photoURL;
+        const saveToDB = {
+          name,
+          email,
+          profile_photo,
+        };
+        axios.post("http://localhost:3000/users", saveToDB).then((res) => {
+          if (res.data.success) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `Welcome back ${result.user.displayName} !`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `Welcome back ${result.user.displayName} !`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
         });
+
         navigate(`${location.state ? location.state : "/"}`, {
           state: { user },
         });

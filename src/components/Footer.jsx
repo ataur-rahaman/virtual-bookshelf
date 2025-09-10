@@ -5,9 +5,9 @@ import { Link } from "react-router";
 const Footer = () => {
   return (
     <footer className="footer sm:footer-horizontal bg-blue-100 text-black p-10">
-      <nav className="flex justify-between w-full">
+      <nav className="flex justify-between flex-wrap gap-5 w-full">
         <div>
-          <div className="flex gap-1 items-center w-fit">
+          <div className="flex items-center w-fit">
             <div>
               <FaBookBookmark className="text-4xl text-blue-500 hidden md:block" />
             </div>

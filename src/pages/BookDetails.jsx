@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { use, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
@@ -23,6 +23,7 @@ const BookDetails = () => {
 
   const [initialUpvote, setInitialUpvote] = useState(upvote);
   const [upvoteCount, setUpvoteCount] = useState(initialUpvote);
+  const reviewRef = useRef();
 
   const handleUpvote = () => {
     setInitialUpvote(upvote);
@@ -35,7 +36,6 @@ const BookDetails = () => {
       return;
     }
     axios.put(`http://localhost:3000/books/${_id}/upvote`).then((res) => {
-      console.log(res.data);
       if (res.data.modifiedCount) {
         setUpvoteCount(upvoteCount + 1);
         Swal.fire({
@@ -48,6 +48,21 @@ const BookDetails = () => {
       }
     });
   };
+
+  const handleReview = () => {
+    const book_id = _id;
+    const user_email = user.email;
+    const review_text = reviewRef.current.value;
+    const newReview = {
+        book_id,
+        user_email,
+        review_text,
+    }
+    axios.post("http://localhost:3000/reviews", newReview).then(res => {
+        console.log(res.data);
+    })
+    reviewRef.current.value = "";
+  }
 
   return (
     <div className="bg-blue-200 dark:bg-gray-600 py-10 md:py-15 px-2">
@@ -72,8 +87,11 @@ const BookDetails = () => {
                 | <span className="text-blue-500">{upvoteCount}</span>
               </span>
             </button>
+            <button onClick={() => document.getElementById("my_modal_5").showModal()} className=" w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500">
+              Post a review
+            </button>
           </div>
-          <div className=" text-center md:text-left w-fit flex-1">
+          <div className=" text-center md:text-left w-fit h-full flex flex-col flex-1">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
               {book_title}
             </h2>
@@ -100,7 +118,7 @@ const BookDetails = () => {
                 </p>
               </div>
             </div>
-            {/* <button className="block w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500">
+            {/* <button className=" w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500">
               Post a review
             </button> */}
           </div>
@@ -112,6 +130,22 @@ const BookDetails = () => {
         {/* lower */}
         <div></div>
       </div>
+
+        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Write your review!</h3>
+          <div>
+            <textarea className="input w-full min-h-30 md:min-h-50 focus:outline-0" name="review" ref={reviewRef}></textarea>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              <button onClick={handleReview} className="btn bg-blue-500 hover:bg-blue-600 text-white">Post</button>
+              <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
     </div>
   );
 };

@@ -42,6 +42,7 @@ const router = createBrowserRouter([
             {
                 path: "/book-details/:id",
                 loader: ({params}) => fetch(`http://localhost:3000/books/${params.id}`).then(res => res.json()),
+                hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
                 Component: BookDetails
             },
 

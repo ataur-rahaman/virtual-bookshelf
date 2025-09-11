@@ -1,12 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 const BookshelfCard = ({data}) => {
-    const {book_title,cover_photo,book_author,book_category,upvote} = data;
+  const navigate = useNavigate();
+    const {_id,book_title,cover_photo,book_author,book_category,upvote} = data;
 
   return (
     <div className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900">
-      <figure>
-        <img className="w-full" src={cover_photo} alt="book" />
+      <figure onClick={() => navigate(`/book-details/${_id}`)}>
+        <img className="w-full cursor-pointer" src={cover_photo} alt="book" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
@@ -18,6 +20,7 @@ const BookshelfCard = ({data}) => {
           <div className="badge bg-blue-50 dark:bg-gray-700"><span className="font-bold">Author:</span> {book_author}</div>
           <div className="badge bg-blue-50 dark:bg-gray-700"><span className="font-bold">Category:</span> {book_category}</div>
         </div>
+      <button className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/book-details/${_id}`)}>See more</button>
       </div>
     </div>
   );

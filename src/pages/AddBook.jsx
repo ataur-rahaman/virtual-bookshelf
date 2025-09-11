@@ -10,7 +10,13 @@ const AddBook = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const newBook = Object.fromEntries(formData.entries());
+    const raw = Object.fromEntries(formData.entries());
+    const newBook = {
+      ...raw,
+      total_page: Number(raw.total_page),
+      upvote: Number(raw.upvote ?? 0),
+    };
+    console.log(newBook);
 
     axios.post("http://localhost:3000/books", newBook).then((res) => {
       if (res.data.insertedId) {
@@ -113,10 +119,10 @@ const AddBook = () => {
             </select>
 
             <label className="label ml-3">Book Overview</label>
-            <input
+            <textarea
               type="text"
               name="book_overview"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               placeholder="write the book overview"
             />
 
@@ -124,7 +130,7 @@ const AddBook = () => {
             <input
               type="number"
               name="upvote"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500"
               defaultValue={0}
               readOnly
             />

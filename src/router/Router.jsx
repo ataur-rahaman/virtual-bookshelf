@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import LoadingSpinner from "../components/LoadingSpinner";
+import BookDetails from "../pages/BookDetails";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,12 @@ const router = createBrowserRouter([
             {
                 path: "/my-books",
                 element: <PrivateRoute><MyBooks></MyBooks></PrivateRoute>
+            },
+
+            {
+                path: "/book-details/:id",
+                loader: ({params}) => fetch(`http://localhost:3000/books/${params.id}`).then(res => res.json()),
+                Component: BookDetails
             },
 
             {

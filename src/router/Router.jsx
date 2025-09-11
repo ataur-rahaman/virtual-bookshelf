@@ -9,6 +9,7 @@ import Profile from "../pages/Profile";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,8 @@ const router = createBrowserRouter([
 
             {
                 path: "/bookshelf",
+                loader: () => fetch("http://localhost:3000/books").then(res => res.json()),
+                hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
                 Component: Bookshelf
             },
 

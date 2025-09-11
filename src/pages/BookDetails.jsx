@@ -49,20 +49,49 @@ const BookDetails = () => {
     });
   };
 
+  const handleModal = () => {
+    axios
+      .get(
+        `http://localhost:3000/reviews/check?book_id=${_id}&user_email=${user.email}`
+      )
+      .then((res) => {
+        if (res.data?.exist) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "You are not able to post review twice for this book",
+          });
+          return;
+        }
+        document.getElementById("my_modal_5").showModal()
+      });
+
+  };
+
   const handleReview = () => {
     const book_id = _id;
     const user_email = user.email;
     const review_text = reviewRef.current.value;
+    const profile_pic = user.photoURL;
     const newReview = {
-        book_id,
-        user_email,
-        review_text,
-    }
-    axios.post("http://localhost:3000/reviews", newReview).then(res => {
-        console.log(res.data);
-    })
+      book_id,
+      user_email,
+      review_text,
+      profile_pic,
+    };
+    axios.post("http://localhost:3000/reviews", newReview).then((res) => {
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "👍 Review has been added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
     reviewRef.current.value = "";
-  }
+  };
 
   return (
     <div className="bg-blue-200 dark:bg-gray-600 py-10 md:py-15 px-2">
@@ -87,7 +116,10 @@ const BookDetails = () => {
                 | <span className="text-blue-500">{upvoteCount}</span>
               </span>
             </button>
-            <button onClick={() => document.getElementById("my_modal_5").showModal()} className=" w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500">
+            <button
+              onClick={handleModal}
+              className=" w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500"
+            >
               Post a review
             </button>
           </div>
@@ -118,9 +150,6 @@ const BookDetails = () => {
                 </p>
               </div>
             </div>
-            {/* <button className=" w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500">
-              Post a review
-            </button> */}
           </div>
           <div className="rounded-xl p-2 border-2 border-blue-400 flex-1">
             <h5 className="text-center font-bold mb-2">Book Overview</h5>
@@ -130,22 +159,32 @@ const BookDetails = () => {
         {/* lower */}
         <div></div>
       </div>
-
-        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+      {/* modal */}
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Write your review!</h3>
           <div>
-            <textarea className="input w-full min-h-30 md:min-h-50 focus:outline-0" name="review" ref={reviewRef}></textarea>
+            <textarea
+              className="input w-full min-h-30 md:min-h-50 focus:outline-0"
+              name="review"
+              ref={reviewRef}
+            ></textarea>
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button onClick={handleReview} className="btn bg-blue-500 hover:bg-blue-600 text-white">Post</button>
-              <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">Close</button>
+              <button
+                onClick={handleReview}
+                className="btn bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                Post
+              </button>
+              <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">
+                Close
+              </button>
             </form>
           </div>
         </div>
       </dialog>
-
     </div>
   );
 };

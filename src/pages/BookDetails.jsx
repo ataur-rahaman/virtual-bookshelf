@@ -25,7 +25,9 @@ const BookDetails = () => {
   const [initialUpvote, setInitialUpvote] = useState(upvote);
   const [upvoteCount, setUpvoteCount] = useState(initialUpvote);
   const [allReviews, setAllReviews] = useState([]);
+  const [updateReviewData, setUpdateReviewData] = useState([]);
   const reviewRef = useRef();
+  const reviewUpdateRef = useRef();
 
   const handleUpvote = () => {
     if (!user) {
@@ -156,6 +158,43 @@ const BookDetails = () => {
     });
   };
 
+  const openUpdateModal = (data) => {
+    setUpdateReviewData(data);
+    document.getElementById("my_modal_6").showModal();
+  }
+
+  const handleUpdateReview = () => {
+    const review_text = reviewUpdateRef.current.value;
+    const now = new Date();
+    const created_at = now.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true,
+    });
+    const newReview = {
+      review_text,
+      created_at,
+    };
+    axios.put(`http://localhost:3000/reviews/${updateReviewData._id}`, newReview).then(res => {
+      console.log(res.data);
+      if(res.data.modifiedCount){
+        axios.get(`http://localhost:3000/reviews?book_id=${_id}`).then(res => {
+          setAllReviews(res.data);
+        })
+        Swal.fire({
+                title: "Done!",
+                text: "Your review has been updated.",
+                icon: "success",
+              });
+        }
+    })
+  }
+
+
   useEffect(() => {
     axios.get(`http://localhost:3000/reviews?book_id=${_id}`).then((res) => {
       setAllReviews(res.data);
@@ -233,6 +272,7 @@ const BookDetails = () => {
               key={data._id}
               data={data}
               handleDeleteReview={handleDeleteReview}
+              openUpdateModal={openUpdateModal}
             ></ReviewCard>
           ))}
         </div>
@@ -255,6 +295,33 @@ const BookDetails = () => {
                 className="btn bg-blue-500 hover:bg-blue-600 text-white"
               >
                 Post
+              </button>
+              <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">
+                Close
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="my_modal_6" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Update your review!</h3>
+          <div>
+            <textarea
+            defaultValue={updateReviewData.review_text}
+              className="input w-full min-h-30 md:min-h-50 focus:outline-0"
+              name="review"
+              ref={reviewUpdateRef}
+            ></textarea>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              <button
+                onClick={handleUpdateReview}
+                className="btn bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                Update
               </button>
               <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">
                 Close

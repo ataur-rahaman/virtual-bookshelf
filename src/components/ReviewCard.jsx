@@ -1,7 +1,7 @@
 import React, { use } from "react";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
-const ReviewCard = ({ data, handleDeleteReview }) => {
+const ReviewCard = ({ data, handleDeleteReview, openUpdateModal }) => {
     const {user} = use(AuthContext);
     const { created_at, displayName, user_email, profile_pic, review_text, _id } =
     data;
@@ -34,7 +34,7 @@ const ReviewCard = ({ data, handleDeleteReview }) => {
             {
               user_email === user?.email && 
               <div>
-                <button className="py-1 px-1 rounded-md cursor-pointer bg-blue-500 hover:bg-blue-600 text-white">
+                <button onClick={() => openUpdateModal(data)} className="py-1 px-1 rounded-md cursor-pointer bg-blue-500 hover:bg-blue-600 text-white">
                   Update
                 </button>
                 <button onClick={() => handleDeleteReview(_id)} className="py-1 px-1 rounded-md ml-2 cursor-pointer bg-red-500 hover:bg-red-600 text-white">

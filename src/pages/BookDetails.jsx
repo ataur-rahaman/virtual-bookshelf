@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { use, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
+import ReviewCard from "../components/ReviewCard";
 
 const BookDetails = () => {
   const { user } = use(AuthContext);
@@ -23,11 +24,21 @@ const BookDetails = () => {
 
   const [initialUpvote, setInitialUpvote] = useState(upvote);
   const [upvoteCount, setUpvoteCount] = useState(initialUpvote);
+  const [allReviews, setAllReviews] = useState([]);
   const reviewRef = useRef();
 
   const handleUpvote = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You have to login first",
+      });
+      return;
+    }
+
     setInitialUpvote(upvote);
-    if (user_email === user.email) {
+    if (user_email === user?.email) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -50,9 +61,17 @@ const BookDetails = () => {
   };
 
   const handleModal = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You have to login first",
+      });
+      return;
+    }
     axios
       .get(
-        `http://localhost:3000/reviews/check?book_id=${_id}&user_email=${user.email}`
+        `http://localhost:3000/reviews/check?book_id=${_id}&user_email=${user?.email}`
       )
       .then((res) => {
         if (res.data?.exist) {
@@ -63,24 +82,38 @@ const BookDetails = () => {
           });
           return;
         }
-        document.getElementById("my_modal_5").showModal()
+        document.getElementById("my_modal_5").showModal();
       });
-
   };
 
   const handleReview = () => {
     const book_id = _id;
+    const displayName = user.displayName;
     const user_email = user.email;
     const review_text = reviewRef.current.value;
     const profile_pic = user.photoURL;
+    const now = new Date();
+    const created_at = now.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true,
+    });
     const newReview = {
       book_id,
+      displayName,
       user_email,
       review_text,
       profile_pic,
+      created_at,
     };
     axios.post("http://localhost:3000/reviews", newReview).then((res) => {
       if (res.data.insertedId) {
+        newReview._id = res.data.insertedId;
+        setAllReviews([...allReviews, newReview]);
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -93,6 +126,41 @@ const BookDetails = () => {
     reviewRef.current.value = "";
   };
 
+  const handleDeleteReview = (rId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:3000/reviews/${rId}`).then((res) => {
+          console.log(res.data);
+          if (res.data.deletedCount) {
+            const finalReviews = allReviews.filter(
+              (review) => review._id !== rId
+            );
+            setAllReviews(finalReviews);
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/reviews?book_id=${_id}`).then((res) => {
+      setAllReviews(res.data);
+    });
+  }, [_id]);
   return (
     <div className="bg-blue-200 dark:bg-gray-600 py-10 md:py-15 px-2">
       <h1 className="text-blue-500 dark:text-white font-bold text-4xl mb-5 md:mb-10 text-center">
@@ -157,7 +225,17 @@ const BookDetails = () => {
           </div>
         </div>
         {/* lower */}
-        <div></div>
+        <hr className="my-10" />
+        <h5 className="mb-3">All reviews:⤵️</h5>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {allReviews.map((data) => (
+            <ReviewCard
+              key={data._id}
+              data={data}
+              handleDeleteReview={handleDeleteReview}
+            ></ReviewCard>
+          ))}
+        </div>
       </div>
       {/* modal */}
       <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">

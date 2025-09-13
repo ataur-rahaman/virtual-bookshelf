@@ -1,9 +1,11 @@
-import React from "react";
+import React, { use } from "react";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
 const BookshelfCard = ({data}) => {
+  const {user} = use(AuthContext);
   const navigate = useNavigate();
-    const {_id,book_title,cover_photo,book_author,book_category,upvote} = data;
+    const {_id,book_title,cover_photo,book_author,book_category,upvote, user_email} = data;
 
   return (
     <div className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900">
@@ -20,7 +22,10 @@ const BookshelfCard = ({data}) => {
           <div className="badge bg-blue-50 dark:bg-gray-700"><span className="font-bold">Author:</span> {book_author}</div>
           <div className="badge bg-blue-50 dark:bg-gray-700"><span className="font-bold">Category:</span> {book_category}</div>
         </div>
-      <button className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/book-details/${_id}`)}>See more</button>
+      <div className="flex items-center justify-between gap-2">
+        <button className="btn flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/book-details/${_id}`)}>See more</button>
+        {user.email === user_email && <button className="btn flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/update-book/${_id}`,{ state: {data} })}>Update</button>}
+      </div>
       </div>
     </div>
   );

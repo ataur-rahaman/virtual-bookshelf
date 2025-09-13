@@ -11,6 +11,8 @@ import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import LoadingSpinner from "../components/LoadingSpinner";
 import BookDetails from "../pages/BookDetails";
+import UpdateBook from "../pages/UpdateBook";
+
 
 const router = createBrowserRouter([
     {
@@ -44,6 +46,11 @@ const router = createBrowserRouter([
                 loader: ({params}) => fetch(`http://localhost:3000/books/${params.id}`).then(res => res.json()),
                 hydrateFallbackElement: <LoadingSpinner></LoadingSpinner>,
                 Component: BookDetails
+            },
+
+            {
+                path: "/update-book/:id",
+                element: <PrivateRoute><UpdateBook></UpdateBook></PrivateRoute>
             },
 
             {

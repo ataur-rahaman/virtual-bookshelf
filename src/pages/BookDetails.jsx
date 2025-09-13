@@ -112,6 +112,14 @@ const BookDetails = () => {
       profile_pic,
       created_at,
     };
+    if(user_email === user.email){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You are not able to post a review on your won book",
+      });
+      return;
+    }
     axios.post("http://localhost:3000/reviews", newReview).then((res) => {
       if (res.data.insertedId) {
         newReview._id = res.data.insertedId;
@@ -225,7 +233,7 @@ const BookDetails = () => {
             </button>
             <button
               onClick={handleModal}
-              className=" w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500"
+              className="w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500"
             >
               Post a review
             </button>

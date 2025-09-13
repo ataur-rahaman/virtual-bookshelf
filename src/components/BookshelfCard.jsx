@@ -24,7 +24,7 @@ const BookshelfCard = ({data}) => {
         </div>
       <div className="flex items-center justify-between gap-2">
         <button className="btn flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/book-details/${_id}`)}>See more</button>
-        {user.email === user_email && <button className="btn flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/update-book/${_id}`,{ state: {data} })}>Update</button>}
+        {user?.email === user_email && <button className="btn flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2" onClick={() => navigate(`/update-book/${_id}`,{ state: {data} })}>Update</button>}
       </div>
       </div>
     </div>

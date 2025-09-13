@@ -16,7 +16,6 @@ const AddBook = () => {
       total_page: Number(raw.total_page),
       upvote: Number(raw.upvote ?? 0),
     };
-    console.log(newBook);
 
     axios.post("http://localhost:3000/books", newBook).then((res) => {
       if (res.data.insertedId) {
@@ -27,6 +26,7 @@ const AddBook = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        form.reset();
       }
     });
   };
@@ -34,7 +34,7 @@ const AddBook = () => {
   return (
     <>
       <title>Add Book</title>
-      <div className="min-h-screen flex justify-center items-center bg-sky-50 py-[50px] md:py-[100px]">
+      <div className="min-h-screen flex justify-center items-center bg-blue-50 py-[50px] md:py-[100px]">
         <form
           onSubmit={handleAddBook}
           className="bg-base-200 border-base-300 rounded-[20px] w-xl border p-4 shadow-2xl"

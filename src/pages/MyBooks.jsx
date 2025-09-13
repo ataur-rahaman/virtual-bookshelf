@@ -13,12 +13,15 @@ const MyBooks = () => {
     },[user.email])
   return (
     <>
-      <div className="max-w-7xl px-2 md:px-3 mx-auto">
+    <title>My Books</title>
+      <div className="bg-blue-50">
+        <div className="max-w-7xl px-2 md:px-3 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5 py-[50px] md:py-[100px]">
           {books.map((data) => (
-            <MyBooksCard key={data._id} data={data}></MyBooksCard>
+            <MyBooksCard key={data._id} data={data} setBooks={setBooks}></MyBooksCard>
           ))}
         </div>
+      </div>
       </div>
     </>
   );

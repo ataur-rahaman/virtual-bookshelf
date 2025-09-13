@@ -1,15 +1,48 @@
 import React from "react";
+import axios from "axios";
 import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
-const MyBooksCard = ({ data }) => {
+const MyBooksCard = ({ data, setBooks }) => {
   const { _id, book_title, cover_photo, book_author, book_category, upvote } =
     data;
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const handleDeleteBook = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`http://localhost:3000/books/${_id}`).then((res) => {
+          if (res.data.deletedCount) {
+            axios.get("http://localhost:3000/books").then((res) => {
+              setBooks(res.data);
+            });
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your book has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <div className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900">
-      <figure onClick={() => navigate(`/update-book/${_id}`, {
-        state: {data}
-      })}>
+      <figure
+        onClick={() =>
+          navigate(`/book-details/${_id}`, {
+            state: { data },
+          })
+        }
+      >
         <img className="w-full cursor-pointer" src={cover_photo} alt="book" />
       </figure>
       <div className="card-body">
@@ -26,14 +59,24 @@ const MyBooksCard = ({ data }) => {
             <span className="font-bold">Category:</span> {book_category}
           </div>
         </div>
-        <button
-          className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2"
-          onClick={() => navigate(`/update-book/${_id}`, {
-            state: {data}
-          })}
-        >
-          Update
-        </button>
+        <div className="flex justify-between items-center gap-3">
+          <button
+            className="btn flex-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md mt-2"
+            onClick={() =>
+              navigate(`/update-book/${_id}`, {
+                state: { data },
+              })
+            }
+          >
+            Update
+          </button>
+          <button
+            className="btn flex-1 bg-red-600 hover:bg-red-700 text-white rounded-md mt-2"
+            onClick={handleDeleteBook}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );

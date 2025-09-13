@@ -32,7 +32,9 @@ const Bookshelf = () => {
   };
   return (
     <>
-      <div className="max-w-7xl px-2 md:px-3 mx-auto">
+    <title>Bookshelf</title>
+      <div className="bg-blue-50">
+        <div className="max-w-7xl px-2 md:px-3 mx-auto">
         <div className="pt-[30px] md:pt-[50px]">
           <h1 className="text-center text-2xl md:text-4xl text-blue-500 font-bold mb-3">
             Book-shelf
@@ -80,8 +82,8 @@ const Bookshelf = () => {
         </div>
       </div>
 
-      <dialog id="my_modal_4" className="modal relative">
-        <div className="modal-box w-11/12 max-w-6xl h-11/12">
+      <dialog id="my_modal_4" className="modal">
+        <div className="modal-box w-11/12 max-w-6xl h-11/12 relative">
           <p className="text-gray-600">Your search result:</p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-5 py-[50px]">
             {modalBooks.map((book) => (
@@ -107,6 +109,7 @@ const Bookshelf = () => {
           </div>
         </div>
       </dialog>
+      </div>
     </>
   );
 };

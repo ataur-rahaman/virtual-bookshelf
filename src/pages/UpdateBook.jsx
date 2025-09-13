@@ -36,6 +36,7 @@ const UpdateBook = () => {
       if (res.data.modifiedCount) {
         navigate("/my-books");
       }
+      form.reset();
     });
   };
 

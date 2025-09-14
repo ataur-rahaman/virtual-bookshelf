@@ -14,9 +14,12 @@ const MyBooks = () => {
   return (
     <>
     <title>My Books</title>
-      <div className="bg-blue-50">
-        <div className="max-w-7xl px-2 md:px-3 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 py-[50px] md:py-[100px]">
+      <div className="bg-white">
+        <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
+              My Books
+            </h1>
+        <div className="max-w-7xl w-11/12 p-4 mb-12 mx-auto rounded-[10px] bg-blue-50">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
           {books.map((data) => (
             <MyBooksCard key={data._id} data={data} setBooks={setBooks}></MyBooksCard>
           ))}

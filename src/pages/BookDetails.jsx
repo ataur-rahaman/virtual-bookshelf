@@ -127,7 +127,7 @@ const BookDetails = () => {
       profile_pic,
       created_at,
     };
-    if (user_email === user.email) {
+    if (book.user_email === user.email) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -251,11 +251,11 @@ const BookDetails = () => {
     });
   }, [_id]);
   return (
-    <div className="bg-blue-50 dark:bg-gray-600 py-10 md:py-15 px-2">
-      <h1 className="text-blue-500 dark:text-white font-bold text-4xl mb-5 md:mb-10 text-center">
-        Book Details
-      </h1>
-      <div className="max-w-6xl mx-auto p-6 bg-blue-50 shadow-lg rounded-xl dark:bg-gray-900 transition-all">
+    <div className="bg-white dark:bg-gray-600">
+      <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
+              Book Details
+            </h1>
+      <div className="max-w-7xl w-11/12 mx-auto p-4 mb-12 bg-blue-50 shadow-lg rounded-[10px] dark:bg-gray-900 transition-all">
         {/* upper */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div>

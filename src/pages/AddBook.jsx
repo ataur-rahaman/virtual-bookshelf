@@ -34,21 +34,21 @@ const AddBook = () => {
   return (
     <>
       <title>Add Book</title>
-      <div className="min-h-screen flex justify-center items-center bg-blue-50 py-[50px] md:py-[100px]">
+      <div className="bg-white">
+        <h1 className='text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto'>Add Book</h1>
+        <div className="bg-blue-50 flex justify-center items-center max-w-7xl w-11/12 p-4 mx-auto rounded-[10px] mb-12">
         <form
           onSubmit={handleAddBook}
-          className="bg-base-200 border-base-300 rounded-[20px] w-xl border p-4 shadow-2xl"
+          className="bg-base-200 border-base-300 rounded-[10px] md:w-11/12 border p-2.5 md:my-12 md:p-[50px] shadow-2xl"
         >
-          <legend className="md:text-3xl text-blue-600 dark:text-white font-bold text-center mb-3">
-            Add Book
-          </legend>
 
-          <fieldset className="fieldset">
-            <label className="label ml-3">Book Title</label>
+          <fieldset className="fieldset md:grid-cols-2 md:gap-10">
+            <div>
+              <label className="label ml-3">Book Title</label>
             <input
               type="text"
               name="book_title"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               placeholder="write the book title here"
             />
 
@@ -56,7 +56,7 @@ const AddBook = () => {
             <input
               type="text"
               name="cover_photo"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               placeholder="paste your book cover image URL here"
             />
 
@@ -64,7 +64,7 @@ const AddBook = () => {
             <input
               type="number"
               name="total_page"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               placeholder="how many pages in this book?"
             />
 
@@ -72,7 +72,7 @@ const AddBook = () => {
             <input
               type="text"
               name="book_author"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               placeholder="write here the author name"
             />
 
@@ -80,16 +80,18 @@ const AddBook = () => {
             <input
               type="email"
               name="user_email"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               defaultValue={user.email}
               readOnly
             />
+            </div>
 
-            <label className="label ml-3">User Name</label>
+           <div>
+             <label className="label ml-3">User Name</label>
             <input
               type="text"
               name="user_name"
-              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md input w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
               defaultValue={user.displayName}
               readOnly
             />
@@ -98,7 +100,7 @@ const AddBook = () => {
             <select
               defaultValue="Select a category"
               name="book_category"
-              className="shadow-md select w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md select w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
             >
               <option disabled={true}>Select a category</option>
               <option>Fiction</option>
@@ -110,7 +112,7 @@ const AddBook = () => {
             <select
               defaultValue="Select a status"
               name="reading_status"
-              className="shadow-md select w-full mb-3 focus:border-blue-500 focus:outline-blue-500 rounded-[50px]"
+              className="shadow-md select w-full mb-3 focus:border-blue-500 focus:outline-blue-500 "
             >
               <option disabled={true}>Select a status</option>
               <option>Read</option>
@@ -134,15 +136,18 @@ const AddBook = () => {
               defaultValue={0}
               readOnly
             />
+           </div>
           </fieldset>
+          
           <div className="flex justify-center">
             <input
               type="submit"
               value="Submit"
-              className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl rounded-[50px] bg-blue-500 hover:bg-blue-600 text-white"
+              className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl bg-blue-500 hover:bg-blue-600 text-white"
             />
           </div>
         </form>
+      </div>
       </div>
     </>
   );

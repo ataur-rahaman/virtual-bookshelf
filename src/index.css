@@ -18,3 +18,8 @@
 body {
   font-family: "Inter", sans-serif;
 }
+
+ul li .active{
+  color: #2B7FFF;
+  border-top:solid 2px;
+}

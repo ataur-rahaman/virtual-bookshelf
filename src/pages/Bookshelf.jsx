@@ -47,7 +47,7 @@ const Bookshelf = () => {
         <div className="flex items-center justify-center gap-2 md:gap-10 flex-wrap mt-5">
           <div className="flex items-center gap-2 w-1/2">
             <input
-              type="text"
+              type="search"
               name="search"
               ref={SearchRef}
               placeholder={`Search  (e.g. book_title or book_author)`}

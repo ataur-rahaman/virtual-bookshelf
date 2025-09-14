@@ -1,13 +1,21 @@
 import axios from "axios";
 import React, { use, useEffect, useRef, useState } from "react";
-import { useLoaderData } from "react-router";
+import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
 import ReviewCard from "../components/ReviewCard";
+import { motion } from "framer-motion";
 
 const BookDetails = () => {
   const { user } = use(AuthContext);
-  const book = useLoaderData();
+  const { id } = useParams();
+  const [book, setBook] = useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:3000/books/${id}`).then((res) => {
+      setBook(res.data);
+    });
+  }, [id]);
+
   const {
     book_title,
     cover_photo,
@@ -21,14 +29,16 @@ const BookDetails = () => {
     user_email,
     _id,
   } = book;
+  // console.log(book);
 
-  const [initialUpvote, setInitialUpvote] = useState(upvote);
-  const [upvoteCount, setUpvoteCount] = useState(initialUpvote);
+  // const [initialUpvote, setInitialUpvote] = useState(upvote);
+  // console.log(initialUpvote);
+  // const [upvoteCount, setUpvoteCount] = useState(initialUpvote);
   const [allReviews, setAllReviews] = useState([]);
   const [updateReviewData, setUpdateReviewData] = useState([]);
   const reviewRef = useRef();
   const reviewUpdateRef = useRef();
-
+  const statusUpdateRef = useRef();
   const handleUpvote = () => {
     if (!user) {
       Swal.fire({
@@ -39,7 +49,7 @@ const BookDetails = () => {
       return;
     }
 
-    setInitialUpvote(upvote);
+    // setInitialUpvote(upvote);
     if (user_email === user?.email) {
       Swal.fire({
         icon: "error",
@@ -50,7 +60,12 @@ const BookDetails = () => {
     }
     axios.put(`http://localhost:3000/books/${_id}/upvote`).then((res) => {
       if (res.data.modifiedCount) {
-        setUpvoteCount(upvoteCount + 1);
+        // const up = parseInt(upvoteCount);
+        // setUpvoteCount(up + 1);
+        setBook(book => ({
+          ...book,
+          upvote: upvote + 1
+        }))
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -112,7 +127,7 @@ const BookDetails = () => {
       profile_pic,
       created_at,
     };
-    if(user_email === user.email){
+    if (user_email === user.email) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -169,7 +184,7 @@ const BookDetails = () => {
   const openUpdateModal = (data) => {
     setUpdateReviewData(data);
     document.getElementById("my_modal_6").showModal();
-  }
+  };
 
   const handleUpdateReview = () => {
     const review_text = reviewUpdateRef.current.value;
@@ -187,21 +202,48 @@ const BookDetails = () => {
       review_text,
       created_at,
     };
-    axios.put(`http://localhost:3000/reviews/${updateReviewData._id}`, newReview).then(res => {
-      console.log(res.data);
-      if(res.data.modifiedCount){
-        axios.get(`http://localhost:3000/reviews?book_id=${_id}`).then(res => {
-          setAllReviews(res.data);
-        })
-        Swal.fire({
-                title: "Done!",
-                text: "Your review has been updated.",
-                icon: "success",
-              });
+    axios
+      .put(`http://localhost:3000/reviews/${updateReviewData._id}`, newReview)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.modifiedCount) {
+          axios
+            .get(`http://localhost:3000/reviews?book_id=${_id}`)
+            .then((res) => {
+              setAllReviews(res.data);
+            });
+          Swal.fire({
+            title: "Done!",
+            text: "Your review has been updated.",
+            icon: "success",
+          });
         }
-    })
-  }
+      });
+  };
 
+  const handleUpdateStatus = () => {
+    const updatedStatus = statusUpdateRef.current.value;
+    const update = { reading_status: updatedStatus };
+
+    if (user_email !== user.email) {
+      Swal.fire({
+        icon: "error",
+        title: "Stop",
+        text: "Update available only for your book",
+      });
+      return;
+    }
+
+    axios.patch(`http://localhost:3000/books/${_id}`, update).then((res) => {
+      console.log(res.data);
+      if (res.data.modifiedCount) {
+        setBook((book) => ({
+          ...book,
+          reading_status: updatedStatus,
+        }));
+      }
+    });
+  };
 
   useEffect(() => {
     axios.get(`http://localhost:3000/reviews?book_id=${_id}`).then((res) => {
@@ -217,10 +259,22 @@ const BookDetails = () => {
         {/* upper */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div>
+            <p className="mb-2">Click to update status ⤵️</p>
+            <motion.p
+              onClick={() =>
+                document.getElementById("my_modal_status").showModal()
+              }
+              whileHover={{ scale: 1.2 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              title="Click to update status"
+              className="bg-blue-500 text-white rounded-t-[10px] py-1 px-2 text-center cursor-pointer"
+            >
+              ✓ {reading_status}
+            </motion.p>
             <img
               src={cover_photo}
               alt={book_title}
-              className="w-48 h-64 object-cover rounded-lg shadow-md"
+              className="w-48 h-64 object-cover rounded-b-[10px] shadow-md"
             />
             <button
               onClick={handleUpvote}
@@ -228,7 +282,7 @@ const BookDetails = () => {
             >
               ▲ Upvote{" "}
               <span className="text-gray-500">
-                | <span className="text-blue-500">{upvoteCount}</span>
+                | <span className="text-blue-500">{upvote}</span>
               </span>
             </button>
             <button
@@ -267,7 +321,9 @@ const BookDetails = () => {
             </div>
           </div>
           <div className="rounded-xl p-2 border-2 border-blue-400 flex-1">
-            <h5 className="text-center md:text-start font-bold mb-2">Book Overview ⤵️</h5>
+            <h5 className="text-center md:text-start font-bold mb-2">
+              Book Overview ⤵️
+            </h5>
             <p>{book_overview}</p>
           </div>
         </div>
@@ -317,7 +373,7 @@ const BookDetails = () => {
           <h3 className="font-bold text-lg">Update your review!</h3>
           <div>
             <textarea
-            defaultValue={updateReviewData.review_text}
+              defaultValue={updateReviewData.review_text}
               className="input w-full min-h-30 md:min-h-50 focus:outline-0"
               name="review"
               ref={reviewUpdateRef}
@@ -334,6 +390,32 @@ const BookDetails = () => {
               <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">
                 Close
               </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog id="my_modal_status" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg mb-2">Category update</h3>
+          <select
+            ref={statusUpdateRef}
+            defaultValue={reading_status}
+            className="select select-primary w-full"
+          >
+            <option disabled={true}>Select a category</option>
+            <option>Want to read</option>
+            <option>Reading</option>
+            <option>Read</option>
+          </select>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button onClick={handleUpdateStatus} className="btn bg-blue-500 hover:bg-blue-600 text-white">
+                Update
+              </button>
+              <button className="btn ml-3 bg-red-600 hover:bg-red-700 text-white">Close</button>
             </form>
           </div>
         </div>

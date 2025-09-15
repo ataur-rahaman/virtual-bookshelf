@@ -1,9 +1,16 @@
 import React from "react";
+import {motion, spring} from "framer-motion"
 
 const NonFicCard = ({ nonFic }) => {
-  const { book_title, cover_photo, book_author, book_category, upvote } = nonFic;
+  const { book_title, cover_photo, book_author, book_category, upvote } =
+    nonFic;
   return (
-    <div className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900">
+    <motion.div
+      initial={{ scale: 1 }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: spring }}
+      className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900"
+    >
       <figure>
         <img className="w-full" src={cover_photo} alt="book" />
       </figure>
@@ -22,7 +29,7 @@ const NonFicCard = ({ nonFic }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

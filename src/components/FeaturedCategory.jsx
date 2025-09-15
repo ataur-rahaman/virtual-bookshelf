@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import FicCard from "./FicCard";
 import NonFicCard from "./NonFicCard";
 import FantasyCard from "./FantasyCard";
+import {motion} from "framer-motion";
 
 const FeaturedCategory = () => {
   const [allBooks, setAllBooks] = useState([]);
@@ -26,11 +27,15 @@ const FeaturedCategory = () => {
   return (
     <div className="bg-white">
       <div className="p-4 bg-blue-50 mt-[50px] md:mt-[100px] rounded-[10px] max-w-7xl w-11/12 mx-auto">
-        <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
+        <motion.h1
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1, translateY: -14 }}
+          className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto"
+        >
           Categories
-        </h1>
+        </motion.h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
-        {/* card-1 */}
+          {/* card-1 */}
           <div className="card bg-base-100 image-full max-w-96 shadow-sm">
             <figure>
               <img
@@ -39,12 +44,19 @@ const FeaturedCategory = () => {
               />
             </figure>
             <div className="card-body">
-              <h2 className="card-title text-3xl">Fiction</h2>
-              <p className="text-xl">
+              <h2 className="card-title text-3xl text-white">Fiction</h2>
+              <p className="text-xl text-white">
                 Expand and see all the books on fiction category
               </p>
               <div className="card-actions justify-end">
-                <button onClick={()=>document.getElementById('my_modal_ficBooks').showModal()} className="btn bg-blue-500 hover:bg-blue-600 text-white">Expand All</button>
+                <button
+                  onClick={() =>
+                    document.getElementById("my_modal_ficBooks").showModal()
+                  }
+                  className="btn bg-blue-500 hover:bg-blue-600 text-white"
+                >
+                  Expand All
+                </button>
               </div>
             </div>
           </div>
@@ -57,12 +69,19 @@ const FeaturedCategory = () => {
               />
             </figure>
             <div className="card-body">
-              <h2 className="card-title text-3xl">Non Fiction</h2>
-              <p className="text-xl">
+              <h2 className="card-title text-3xl text-white">Non Fiction</h2>
+              <p className="text-xl text-white">
                 Expand and see all the books on non-fiction category
               </p>
               <div className="card-actions justify-end">
-                <button onClick={()=>document.getElementById('my_modal_nonFicBooks').showModal()} className="btn bg-blue-500 hover:bg-blue-600 text-white">Expand All</button>
+                <button
+                  onClick={() =>
+                    document.getElementById("my_modal_nonFicBooks").showModal()
+                  }
+                  className="btn bg-blue-500 hover:bg-blue-600 text-white"
+                >
+                  Expand All
+                </button>
               </div>
             </div>
           </div>
@@ -75,16 +94,22 @@ const FeaturedCategory = () => {
               />
             </figure>
             <div className="card-body">
-              <h2 className="card-title text-3xl">Fantasy</h2>
-              <p className="text-xl">
+              <h2 className="card-title text-3xl text-white">Fantasy</h2>
+              <p className="text-xl text-white">
                 Expand and see all the books on fantasy category
               </p>
               <div className="card-actions justify-end">
-                <button onClick={()=>document.getElementById('my_modal_fantasyBooks').showModal()} className="btn bg-blue-500 hover:bg-blue-600 text-white">Expand All</button>
+                <button
+                  onClick={() =>
+                    document.getElementById("my_modal_fantasyBooks").showModal()
+                  }
+                  className="btn bg-blue-500 hover:bg-blue-600 text-white"
+                >
+                  Expand All
+                </button>
               </div>
             </div>
           </div>
-
         </div>
       </div>
 

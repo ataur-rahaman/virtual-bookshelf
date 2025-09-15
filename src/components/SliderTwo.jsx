@@ -1,4 +1,5 @@
 import React from "react";
+import {motion} from "framer-motion";
 
 const SliderTwo = () => {
   return (
@@ -13,11 +14,19 @@ const SliderTwo = () => {
           </h1>
 
           <p className="text-base text-slate-600 dark:text-slate-300 mb-6">
-            Tired of scattered book lists? Build your own digital bookshelf to track what you've read, what you're reading, and what's next — all in one clean, user-friendly space.
+            Tired of scattered book lists? Build your own digital bookshelf to
+            track what you've read, what you're reading, and what's next — all
+            in one clean, user-friendly space.
           </p>
         </div>
         <div className="w-full lg:w-1/2 lg:flex justify-center hidden">
-          <img
+          <motion.img
+            animate={{ rotate: 360 }}
+            transition={{
+              ease: "linear",
+              duration: 30,
+              repeat: Infinity,
+            }}
             src="https://cdn-icons-png.flaticon.com/512/3861/3861717.png"
             alt="Bookshelf illustration"
             className="w-80 h-auto drop-shadow-xl dark:invert"

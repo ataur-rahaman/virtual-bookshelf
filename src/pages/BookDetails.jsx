@@ -62,10 +62,10 @@ const BookDetails = () => {
       if (res.data.modifiedCount) {
         // const up = parseInt(upvoteCount);
         // setUpvoteCount(up + 1);
-        setBook(book => ({
+        setBook((book) => ({
           ...book,
-          upvote: upvote + 1
-        }))
+          upvote: upvote + 1,
+        }));
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -253,8 +253,8 @@ const BookDetails = () => {
   return (
     <div className="bg-white dark:bg-gray-600">
       <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
-              Book Details
-            </h1>
+        Book Details
+      </h1>
       <div className="max-w-7xl w-11/12 mx-auto p-4 mb-12 bg-blue-50 shadow-lg rounded-[10px] dark:bg-gray-900 transition-all">
         {/* upper */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -276,7 +276,8 @@ const BookDetails = () => {
               alt={book_title}
               className="w-48 h-64 object-cover rounded-b-[10px] shadow-md"
             />
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
               onClick={handleUpvote}
               className="block w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500"
             >
@@ -284,13 +285,14 @@ const BookDetails = () => {
               <span className="text-gray-500">
                 | <span className="text-blue-500">{upvote}</span>
               </span>
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
               onClick={handleModal}
               className="w-full bg-gray-100 mt-5 border border-gray-400 rounded-md cursor-pointer py-1 px-3 text-blue-500"
             >
               Post a review
-            </button>
+            </motion.button>
           </div>
           <div className=" text-center md:text-left w-fit h-full flex flex-col flex-1">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
@@ -354,15 +356,19 @@ const BookDetails = () => {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
                 onClick={handleReview}
                 className="btn bg-blue-500 hover:bg-blue-600 text-white"
               >
                 Post
-              </button>
-              <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="btn ml-3 bg-red-500 hover:bg-red-600 text-white"
+              >
                 Close
-              </button>
+              </motion.button>
             </form>
           </div>
         </div>
@@ -381,15 +387,19 @@ const BookDetails = () => {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
                 onClick={handleUpdateReview}
                 className="btn bg-blue-500 hover:bg-blue-600 text-white"
               >
                 Update
-              </button>
-              <button className="btn ml-3 bg-red-500 hover:bg-red-600 text-white">
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="btn ml-3 bg-red-500 hover:bg-red-600 text-white"
+              >
                 Close
-              </button>
+              </motion.button>
             </form>
           </div>
         </div>
@@ -412,10 +422,19 @@ const BookDetails = () => {
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button onClick={handleUpdateStatus} className="btn bg-blue-500 hover:bg-blue-600 text-white">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={handleUpdateStatus}
+                className="btn bg-blue-500 hover:bg-blue-600 text-white"
+              >
                 Update
-              </button>
-              <button className="btn ml-3 bg-red-600 hover:bg-red-700 text-white">Close</button>
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="btn ml-3 bg-red-600 hover:bg-red-700 text-white"
+              >
+                Close
+              </motion.button>
             </form>
           </div>
         </div>

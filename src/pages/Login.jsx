@@ -162,12 +162,16 @@ const LogIn = () => {
                 transition={{ duration: 0.3, type: spring, stiffness: 200 }}
                 className="flex flex-col"
               >
-                <input
+                <motion.input
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
                   className="btn mt-4 bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-4xl"
                   type="submit"
                   value="Login"
                 />
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleLoginGoogle}
                   className="btn bg-white text-black border-[#e5e5e5] mt-5 rounded-4xl"
                 >
@@ -199,7 +203,7 @@ const LogIn = () => {
                     </g>
                   </svg>
                   Login with Google
-                </button>
+                </motion.button>
               </motion.div>
             </form>
           </div>

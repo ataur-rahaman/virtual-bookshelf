@@ -43,9 +43,13 @@ const Contact = () => {
   return (
     <div className="bg-white">
       <div className="p-4 rounded-[10px] max-w-7xl w-11/12 mx-auto my-[50px] md:my-[100px] bg-blue-50 dark:bg-gray-900">
-          <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
-            Contact
-          </h1>
+        <motion.h1
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1, translateY: -14 }}
+          className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto"
+        >
+          Contact
+        </motion.h1>
         <div className="flex items-center justify-center">
           <motion.div
             ref={ref}
@@ -122,9 +126,9 @@ const Contact = () => {
                     ></textarea>
                   </div>
                   <motion.button
-                    type="submit"
-                    className="w-full flex justify-center items-center py-3 px-6 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                    whileHover={{ scale: 1.02 }}
+                    type="button"
+                    className="w-full flex outline-0 justify-center items-center py-3 px-6 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <FaPaperPlane className="mr-2" />

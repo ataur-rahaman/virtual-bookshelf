@@ -36,9 +36,13 @@ const About = () => {
         animate={isInView ? "visible" : "hidden"}
         variants={containerVariants}
       >
-        <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
-              About
-            </h1>
+        <motion.h1
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1, translateY: -14 }}
+          className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto"
+        >
+          About
+        </motion.h1>
         <div className="container mx-auto max-w-4xl text-center">
           <motion.h2
             className="text-4xl md:text-5xl font-extrabold text-blue-500 mb-4 tracking-tight"

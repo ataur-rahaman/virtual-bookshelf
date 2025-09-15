@@ -1,11 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import {motion, spring} from "framer-motion";
 
 const PopularBooksCard = ({ topBook }) => {
     const navigate = useNavigate();
     const {_id,book_title,cover_photo,book_author,book_category,upvote} = topBook;
   return (
-    <div className="card bg-base-100 max-w-70 mx-auto shadow-md dark:shadow-blue-900">
+    <motion.div 
+    initial ={{scale:1}}
+    whileHover={{scale:1.05}}
+    transition={{type: spring}}
+    className="card bg-base-100 max-w-70 mx-auto shadow-md dark:shadow-blue-900">
       <figure onClick={() => navigate(`/book-details/${_id}`)}>
         <img className="w-full cursor-pointer" src={cover_photo} alt="book" />
       </figure>
@@ -24,7 +29,7 @@ const PopularBooksCard = ({ topBook }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import {motion} from "framer-motion"
 
 const SliderThree = () => {
   return (
@@ -7,7 +8,6 @@ const SliderThree = () => {
         <div className="w-full lg:w-1/2">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight">
             Watch Your Reading Journey Grow.{" "}
-            
           </h1>
 
           <p className="text-base text-slate-600 dark:text-slate-300 mb-6">
@@ -17,7 +17,13 @@ const SliderThree = () => {
           </p>
         </div>
         <div className="w-full lg:w-1/2 lg:flex justify-center hidden">
-          <img
+          <motion.img
+            animate={{ rotate: 360 }}
+            transition={{
+              ease: "linear",
+              duration: 30,
+              repeat: Infinity,
+            }}
             src="https://cdn-icons-png.flaticon.com/512/2072/2072163.png"
             alt="Bookshelf illustration"
             className="w-80 h-auto drop-shadow-xl dark:invert"

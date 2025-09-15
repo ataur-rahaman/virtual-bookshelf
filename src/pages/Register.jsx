@@ -242,13 +242,17 @@ const Register = () => {
                   </Link>
                 </span>
               </div>
-              <input
+              <motion.input
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
                 className="btn mt-4 bg-blue-500 hover:bg-blue-600 text-white border-0 w-full rounded-4xl"
                 type="submit"
                 value="SignUp"
               />
               <div className="flex flex-col">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={handleLoginGoogle}
                   className="btn bg-white text-black border-[#e5e5e5] mt-5 rounded-4xl"
                 >
@@ -280,7 +284,7 @@ const Register = () => {
                     </g>
                   </svg>
                   Login with Google
-                </button>
+                </motion.button>
               </div>
             </form>
           </div>

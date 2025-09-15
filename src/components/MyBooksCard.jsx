@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { motion, spring } from "framer-motion";
 
 const MyBooksCard = ({ data, setBooks }) => {
   const { _id, book_title, cover_photo, book_author, book_category, upvote } =
@@ -35,7 +36,12 @@ const MyBooksCard = ({ data, setBooks }) => {
     });
   };
   return (
-    <div className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900">
+    < motion.div
+      initial={{ scale: 1 }}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: spring }}
+      className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900"
+    >
       <figure
         onClick={() =>
           navigate(`/book-details/${_id}`, {
@@ -78,7 +84,7 @@ const MyBooksCard = ({ data, setBooks }) => {
           </button>
         </div>
       </div>
-    </div>
+    </ motion.div>
   );
 };
 

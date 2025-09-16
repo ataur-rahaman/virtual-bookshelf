@@ -5,26 +5,30 @@ import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
 import ReviewCard from "../components/ReviewCard";
 import { motion } from "framer-motion";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const BookDetails = () => {
   const { id } = useParams();
   const { user } = use(AuthContext);
+  const [loading, setLoading] = useState(false);
   const [book, setBook] = useState([]);
   const [allReviews, setAllReviews] = useState([]);
   const [updateReviewData, setUpdateReviewData] = useState([]);
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`)
       .then((res) => {
         setBook(res.data);
+        setLoading(false);
       });
-
       axios
       .get(
         `https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${id}`
       )
       .then((res) => {
         setAllReviews(res.data);
+        setLoading(false);
       });
   }, [id, book._id]);
 
@@ -287,6 +291,8 @@ const BookDetails = () => {
         }
       });
   };
+
+  if(loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div className="bg-white dark:bg-gray-600">

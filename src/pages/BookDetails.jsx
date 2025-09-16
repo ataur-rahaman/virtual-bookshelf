@@ -38,20 +38,6 @@ const BookDetails = () => {
       .finally(() => {
         setLoading(false);
       })
-    // axios
-    //   .get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`)
-    //   .then((res) => {
-    //     setBook(res.data);
-    //     setLoading(false);
-    //   });
-    //   axios
-    //   .get(
-    //     `https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${id}`
-    //   )
-    //   .then((res) => {
-    //     setAllReviews(res.data);
-    //     setLoading(false);
-    //   });
   }, [id]);
 
   console.log(allReviews);
@@ -277,11 +263,11 @@ const BookDetails = () => {
     const updatedStatus = statusUpdateRef.current.value;
     const update = { reading_status: updatedStatus };
 
-    if (user_email !== user.email) {
+    if (user_email !== user?.email) {
       Swal.fire({
         icon: "error",
         title: "Stop",
-        text: "Update available only for your book",
+        text: "Update available only for book owner",
       });
       return;
     }

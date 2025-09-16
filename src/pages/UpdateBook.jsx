@@ -1,11 +1,12 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const UpdateBook = () => {
+  const [loading, setLoading] = useState(false);
   const { user } = use(AuthContext);
   const location = useLocation();
   const { data } = location.state || {};
@@ -24,6 +25,7 @@ const UpdateBook = () => {
   const navigate = useNavigate();
 
   const handleUpdateBook = (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const form = e.target;
@@ -37,6 +39,7 @@ const UpdateBook = () => {
 
     axiosSecure.put(`/books/${_id}`, updatedBook).then((res) => {
       if (res.data.modifiedCount) {
+        setLoading(false);
         Swal.fire({
           title: "Updated!",
           text: "Your book has been updated.",
@@ -47,6 +50,8 @@ const UpdateBook = () => {
       form.reset();
     });
   };
+
+  if(loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <>

@@ -5,17 +5,30 @@ import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import Swal from "sweetalert2";
 import ReviewCard from "../components/ReviewCard";
 import { motion } from "framer-motion";
-import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const BookDetails = () => {
-  const { user } = use(AuthContext);
   const { id } = useParams();
+  const { user } = use(AuthContext);
   const [book, setBook] = useState([]);
+  const [allReviews, setAllReviews] = useState([]);
+  const [updateReviewData, setUpdateReviewData] = useState([]);
   useEffect(() => {
-    axios.get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`).then((res) => {
-      setBook(res.data);
-    });
-  }, [id]);
+    axios
+      .get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`)
+      .then((res) => {
+        setBook(res.data);
+      });
+
+      axios
+      .get(
+        `https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${id}`
+      )
+      .then((res) => {
+        setAllReviews(res.data);
+      });
+  }, [id, book._id]);
+
+  console.log(allReviews);
 
   const {
     book_title,
@@ -30,17 +43,10 @@ const BookDetails = () => {
     user_email,
     _id,
   } = book;
-  // (book);
 
-  // const [initialUpvote, setInitialUpvote] = useState(upvote);
-  // (initialUpvote);
-  // const [upvoteCount, setUpvoteCount] = useState(initialUpvote);
-  const [allReviews, setAllReviews] = useState([]);
-  const [updateReviewData, setUpdateReviewData] = useState([]);
   const reviewRef = useRef();
   const reviewUpdateRef = useRef();
   const statusUpdateRef = useRef();
-  const axiosSecure = useAxiosSecure();
   const handleUpvote = () => {
     if (!user) {
       Swal.fire({
@@ -60,23 +66,27 @@ const BookDetails = () => {
       });
       return;
     }
-    axios.put(`https://virtual-bookshelf-server-cyan.vercel.app/books/${_id}/upvote`).then((res) => {
-      if (res.data.modifiedCount) {
-        // const up = parseInt(upvoteCount);
-        // setUpvoteCount(up + 1);
-        setBook((book) => ({
-          ...book,
-          upvote: upvote + 1,
-        }));
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "👍 upvoted done!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+    axios
+      .put(
+        `https://virtual-bookshelf-server-cyan.vercel.app/books/${_id}/upvote`
+      )
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          // const up = parseInt(upvoteCount);
+          // setUpvoteCount(up + 1);
+          setBook((book) => ({
+            ...book,
+            upvote: upvote + 1,
+          }));
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "👍 upvoted done!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   };
 
   const handleModal = () => {
@@ -137,19 +147,24 @@ const BookDetails = () => {
       });
       return;
     }
-    axios.post("https://virtual-bookshelf-server-cyan.vercel.app/reviews", newReview).then((res) => {
-      if (res.data.insertedId) {
-        newReview._id = res.data.insertedId;
-        setAllReviews([...allReviews, newReview]);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "👍 Review has been added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+    axios
+      .post(
+        "https://virtual-bookshelf-server-cyan.vercel.app/reviews",
+        newReview
+      )
+      .then((res) => {
+        if (res.data.insertedId) {
+          newReview._id = res.data.insertedId;
+          setAllReviews([...allReviews, newReview]);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "👍 Review has been added!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
     reviewRef.current.value = "";
   };
 
@@ -164,21 +179,25 @@ const BookDetails = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`https://virtual-bookshelf-server-cyan.vercel.app/reviews/${rId}`).then((res) => {
-          (res.data);
-          if (res.data.deletedCount) {
-            const finalReviews = allReviews.filter(
-              (review) => review._id !== rId
-            );
-            setAllReviews(finalReviews);
+        axios
+          .delete(
+            `https://virtual-bookshelf-server-cyan.vercel.app/reviews/${rId}`
+          )
+          .then((res) => {
+            res.data;
+            if (res.data.deletedCount) {
+              const finalReviews = allReviews.filter(
+                (review) => review._id !== rId
+              );
+              setAllReviews(finalReviews);
 
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success",
-            });
-          }
-        });
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          });
       }
     });
   };
@@ -205,12 +224,17 @@ const BookDetails = () => {
       created_at,
     };
     axios
-      .put(`https://virtual-bookshelf-server-cyan.vercel.app/reviews/${updateReviewData._id}`, newReview)
+      .put(
+        `https://virtual-bookshelf-server-cyan.vercel.app/reviews/${updateReviewData._id}`,
+        newReview
+      )
       .then((res) => {
-        (res.data);
+        res.data;
         if (res.data.modifiedCount) {
           axios
-            .get(`https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${_id}`)
+            .get(
+              `https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${_id}`
+            )
             .then((res) => {
               setAllReviews(res.data);
             });
@@ -236,34 +260,34 @@ const BookDetails = () => {
       return;
     }
 
-    axios.patch(`https://virtual-bookshelf-server-cyan.vercel.app/books/${_id}`, update).then((res) => {
-      if (res.data.modifiedCount) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Status has been updated",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setBook((book) => ({
-          ...book,
-          reading_status: updatedStatus,
-        }));
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Opps",
-          text: `${res.data.message}`,
-        });
-      }
-    });
+    axios
+      .patch(
+        `https://virtual-bookshelf-server-cyan.vercel.app/books/${_id}`,
+        update
+      )
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Status has been updated",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setBook((book) => ({
+            ...book,
+            reading_status: updatedStatus,
+          }));
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Opps",
+            text: `${res.data.message}`,
+          });
+        }
+      });
   };
 
-  useEffect(() => {
-    axios.get(`https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${_id}`).then((res) => {
-      setAllReviews(res.data);
-    });
-  }, [_id]);
   return (
     <div className="bg-white dark:bg-gray-600">
       <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">

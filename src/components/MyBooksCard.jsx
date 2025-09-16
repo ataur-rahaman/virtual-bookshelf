@@ -50,6 +50,7 @@ const MyBooksCard = ({ data, setBooks }) => {
       className="card bg-base-100 max-w-96 shadow-md dark:shadow-blue-900"
     >
       <figure
+      className="h-full"
         onClick={() =>
           navigate(`/book-details/${_id}`, {
             state: { data },

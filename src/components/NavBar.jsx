@@ -9,27 +9,27 @@ const NavBar = () => {
   const links = (
     <>
       <li>
-        <NavLink className="hover:text-blue-500 bg-[#0000]" to={"/"}>
+        <NavLink className="hover:text-blue-500 bg-[#0000] text-xl md:text-[16px]" to={"/"}>
           Home
         </NavLink>
       </li>
       <li>
-        <NavLink className="hover:text-blue-500 bg-[#0000]" to={"bookshelf"}>
+        <NavLink className="hover:text-blue-500 bg-[#0000] text-xl md:text-[16px]" to={"bookshelf"}>
           Bookshelf
         </NavLink>
       </li>
       <li>
-        <NavLink className="hover:text-blue-500 bg-[#0000]" to={"add-book"}>
+        <NavLink className="hover:text-blue-500 bg-[#0000] text-xl md:text-[16px]" to={"add-book"}>
           Add Book
         </NavLink>
       </li>
       <li>
-        <NavLink className="hover:text-blue-500 bg-[#0000]" to={"my-books"}>
+        <NavLink className="hover:text-blue-500 bg-[#0000] text-xl md:text-[16px]" to={"my-books"}>
           My Books
         </NavLink>
       </li>
       <li>
-        <NavLink className="hover:text-blue-500 bg-[#0000]" to={"profile"}>
+        <NavLink className="hover:text-blue-500 bg-[#0000] text-xl md:text-[16px]" to={"profile"}>
           Profile
         </NavLink>
       </li>

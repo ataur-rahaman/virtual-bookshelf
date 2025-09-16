@@ -6,7 +6,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 const MyBooks = () => {
     const [books, setBooks] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const {user} = use(AuthContext);
     const axiosSecure = useAxiosSecure();
     useEffect(() => {

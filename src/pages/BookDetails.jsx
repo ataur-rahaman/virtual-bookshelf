@@ -16,21 +16,43 @@ const BookDetails = () => {
   const [updateReviewData, setUpdateReviewData] = useState([]);
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`)
-      .then((res) => {
-        setBook(res.data);
-        setLoading(false);
-      });
-      axios
-      .get(
+    Promise.all([
+      axios.get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`),
+      axios.get(
         `https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${id}`
-      )
-      .then((res) => {
-        setAllReviews(res.data);
+      ),
+    ])
+      .then(([bookRes, reviewRes]) => {
+        setBook(bookRes.data);
+        setAllReviews(reviewRes.data);
+      })
+      .catch((err) => {
+        if (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong while fetching data!",
+          });
+        }
+      })
+      .finally(() => {
         setLoading(false);
-      });
-  }, [id, book._id]);
+      })
+    // axios
+    //   .get(`https://virtual-bookshelf-server-cyan.vercel.app/books/${id}`)
+    //   .then((res) => {
+    //     setBook(res.data);
+    //     setLoading(false);
+    //   });
+    //   axios
+    //   .get(
+    //     `https://virtual-bookshelf-server-cyan.vercel.app/reviews?book_id=${id}`
+    //   )
+    //   .then((res) => {
+    //     setAllReviews(res.data);
+    //     setLoading(false);
+    //   });
+  }, [id]);
 
   console.log(allReviews);
 
@@ -292,7 +314,7 @@ const BookDetails = () => {
       });
   };
 
-  if(loading) return <LoadingSpinner></LoadingSpinner>;
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div className="bg-white dark:bg-gray-600">

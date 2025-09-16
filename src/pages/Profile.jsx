@@ -2,7 +2,6 @@ import React, { use, useEffect, useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
-import axios from "axios";
 import FicCard from "../components/FicCard";
 import NonFicCard from "../components/NonFicCard";
 import FantasyCard from "../components/FantasyCard";
@@ -10,7 +9,7 @@ import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Profile = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [allBooks, setAllBooks] = useState([]);
   const { user } = use(AuthContext);
   const axiosSecure = useAxiosSecure();
@@ -21,8 +20,8 @@ const Profile = () => {
       .get(`/my-books?email=${user.email}`)
       .then((res) => {
         setAllBooks(res.data);
+        setLoading(false);
       });
-    setLoading(false);
   }, [user.email, axiosSecure]);
 
   const fiction = allBooks.filter((book) => book?.book_category === "Fiction");
@@ -37,9 +36,7 @@ const Profile = () => {
     { name: "Fantasy", value: fantasy.length },
   ];
 
-  if (loading) {
-    return <LoadingSpinner></LoadingSpinner>;
-  }
+  if(loading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <>
       <title>My Profile</title>

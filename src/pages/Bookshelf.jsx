@@ -10,7 +10,7 @@ const Bookshelf = () => {
 // const books = useLoaderData();
   const [modalBooks, setModalBooks] = useState([]);
   const [allBooks, setAllBook] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const SearchRef = useRef();
   const filterRef = useRef();
 

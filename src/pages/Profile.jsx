@@ -7,21 +7,23 @@ import FicCard from "../components/FicCard";
 import NonFicCard from "../components/NonFicCard";
 import FantasyCard from "../components/FantasyCard";
 import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [allBooks, setAllBooks] = useState([]);
   const { user } = use(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`http://localhost:3000/my-books?email=${user.email}`)
+    axiosSecure
+      .get(`/my-books?email=${user.email}`)
       .then((res) => {
         setAllBooks(res.data);
       });
     setLoading(false);
-  }, [user.email]);
+  }, [user.email, axiosSecure]);
 
   const fiction = allBooks.filter((book) => book?.book_category === "Fiction");
   const nonFiction = allBooks.filter(
@@ -64,7 +66,7 @@ const Profile = () => {
             <p className="my-4 text-gray-600">Bookshelf summary: ⤵️</p>
             <div className="flex flex-col md:flex-row justify-between items-center gap-6 w-full">
               {/* left */}
-              <div className="shadow-lg p-3 rounded-[10px] bg-gray-50">
+              <div className="shadow-lg p-3 rounded-[10px] bg-gray-50 text-black">
                 <p className="font-bold mb-4">Total books: {allBooks.length}</p>
                 <p className="mb-2">Click following buttons to see books ⤵️</p>
                 <hr className="mb-2" />

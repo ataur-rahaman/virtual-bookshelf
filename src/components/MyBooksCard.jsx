@@ -1,13 +1,14 @@
 import React from "react";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { motion, spring } from "framer-motion";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyBooksCard = ({ data, setBooks }) => {
   const { _id, book_title, cover_photo, book_author, book_category, upvote } =
     data;
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handleDeleteBook = () => {
     Swal.fire({
@@ -20,15 +21,21 @@ const MyBooksCard = ({ data, setBooks }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:3000/books/${_id}`).then((res) => {
-          if (res.data.deletedCount) {
-            axios.get("http://localhost:3000/books").then((res) => {
-              setBooks(res.data);
-            });
+        axiosSecure.delete(`/books/${_id}`).then((res) => {
+          if (res.data.success) {
+            setBooks((prevBooks) =>
+              prevBooks.filter((book) => book._id !== _id)
+            );
             Swal.fire({
               title: "Deleted!",
               text: "Your book has been deleted.",
               icon: "success",
+            });
+          }else{
+            Swal.fire({
+              title: "Opps!",
+              text: `${res.data.message}`,
+              icon: "error",
             });
           }
         });
@@ -36,7 +43,7 @@ const MyBooksCard = ({ data, setBooks }) => {
     });
   };
   return (
-    < motion.div
+    <motion.div
       initial={{ scale: 1 }}
       whileHover={{ scale: 1.05 }}
       transition={{ type: spring }}
@@ -84,7 +91,7 @@ const MyBooksCard = ({ data, setBooks }) => {
           </button>
         </div>
       </div>
-    </ motion.div>
+    </motion.div>
   );
 };
 

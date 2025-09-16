@@ -46,8 +46,8 @@ const Register = () => {
         setUser(result);
         updateProfile(auth.currentUser, profile)
           .then(() => {
-            axios.post("http://localhost:3000/users", saveToDB).then((res) => {
-              console.log(res.data);
+            axios.post("https://virtual-bookshelf-server-cyan.vercel.app/users", saveToDB).then((res) => {
+              (res.data);
               if (res.data.success) {
                 Swal.fire({
                   position: "top-end",
@@ -112,7 +112,7 @@ const Register = () => {
           email,
           profile_photo,
         };
-        axios.post("http://localhost:3000/users", saveToDB).then((res) => {
+        axios.post("https://virtual-bookshelf-server-cyan.vercel.app/users", saveToDB).then((res) => {
           if (res.data.success) {
             Swal.fire({
               position: "top-end",
@@ -159,9 +159,9 @@ const Register = () => {
   return (
     <>
       <title>Register</title>
-      <div className=" mx-auto flex justify-center items-center bg-sky-50 dark:bg-gray-600 py-[100px]">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 rounded-2xl shadow-2xl">
-          <div className="card-body rounded-2xl">
+      <div className=" mx-auto flex justify-center items-center bg-gray-50 dark:bg-gray-600 py-[100px]">
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 rounded-[10px] border-2 border-blue-400">
+          <div className="card-body rounded-[5px]">
             <h1 className="text-4xl mb-5 text-center">Register here</h1>
             <form onSubmit={handleRegister}>
               <motion.input
@@ -175,7 +175,7 @@ const Register = () => {
                 }}
                 type="text"
                 name="name"
-                className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-4xl w-full"
+                className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-[5px] w-full"
                 placeholder="Name"
                 required
               />
@@ -190,7 +190,7 @@ const Register = () => {
                 }}
                 type="email"
                 name="email"
-                className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-4xl w-full"
+                className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-[5px] w-full"
                 placeholder="Email"
                 required
               />
@@ -205,7 +205,7 @@ const Register = () => {
                 }}
                 type="text"
                 name="photoURL"
-                className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-4xl w-full"
+                className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-[5px] w-full"
                 placeholder="Photo Url"
                 required
               />
@@ -223,7 +223,7 @@ const Register = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-4xl w-full"
+                  className="input mb-2 focus:border-2 focus:border-blue-500 focus:outline-0 focus:shadow-none rounded-[5px] w-full"
                   placeholder="Password"
                 />
                 <button
@@ -245,7 +245,7 @@ const Register = () => {
               <motion.input
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="btn mt-4 bg-blue-500 hover:bg-blue-600 text-white border-0 w-full rounded-4xl"
+                className="btn mt-4 bg-blue-500 hover:bg-blue-600 text-white border-0 w-full rounded-[5px]"
                 type="submit"
                 value="SignUp"
               />
@@ -254,7 +254,7 @@ const Register = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleLoginGoogle}
-                  className="btn bg-white text-black border-[#e5e5e5] mt-5 rounded-4xl"
+                  className="btn bg-white text-black border-[#e5e5e5] mt-5 rounded-[5px]"
                 >
                   <svg
                     aria-label="Google logo"

@@ -107,9 +107,9 @@ const LogIn = () => {
   return (
     <>
       <title>Login</title>
-      <div className=" mx-auto flex justify-center items-center bg-sky-50 dark:bg-gray-600 py-[100px] px-2">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 rounded-2xl shadow-2xl">
-          <div className="card-body rounded-2xl">
+      <div className=" mx-auto flex justify-center items-center bg-gray-50 dark:bg-gray-600 py-[100px] px-2">
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 rounded-[10px] border-2 border-blue-400">
+          <div className="card-body rounded-[5px]">
             <h1 className="text-4xl mb-5 text-center">Login here</h1>
             <form onSubmit={handleLogin}>
               <motion.input
@@ -118,7 +118,7 @@ const LogIn = () => {
                 transition={{ duration: 0.3, type: spring, stiffness: 200 }}
                 type="email"
                 name="email"
-                className="input mb-2 w-full focus:border-2 focus:border-[#0EA5E9] focus:outline-0 focus:shadow-none rounded-4xl"
+                className="input mb-2 w-full focus:border-2 focus:border-[#0EA5E9] focus:outline-0 focus:shadow-none rounded-[5px]"
                 placeholder="Email"
                 id="email"
                 required
@@ -132,7 +132,7 @@ const LogIn = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  className="input mb-2 w-full focus:border-2 focus:border-[#0EA5E9] focus:outline-0 focus:shadow-none rounded-4xl"
+                  className="input mb-2 w-full focus:border-2 focus:border-[#0EA5E9] focus:outline-0 focus:shadow-none rounded-[5px]"
                   placeholder="Password"
                 />
                 <button
@@ -165,7 +165,7 @@ const LogIn = () => {
                 <motion.input
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="btn mt-4 bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-4xl"
+                  className="btn mt-4 bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-[5px]"
                   type="submit"
                   value="Login"
                 />
@@ -173,7 +173,7 @@ const LogIn = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleLoginGoogle}
-                  className="btn bg-white text-black border-[#e5e5e5] mt-5 rounded-4xl"
+                  className="btn bg-white text-black border-[#e5e5e5] mt-5 rounded-[5px]"
                 >
                   <svg
                     aria-label="Google logo"

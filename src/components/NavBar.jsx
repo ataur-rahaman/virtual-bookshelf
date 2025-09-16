@@ -102,7 +102,7 @@ const NavBar = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleLogOut}
-                  className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer"
+                  className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] text-white border-0 md:text-xl text-sm cursor-pointer"
                 >
                   LogOut
                 </motion.button>
@@ -112,7 +112,7 @@ const NavBar = () => {
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to={"login"}
-                    className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] md:rounded-4xl text-white border-0 md:text-xl text-sm cursor-pointer"
+                    className="py-2 px-3 md:py-2 md:px-4 bg-blue-500 hover:bg-blue-600 rounded-[5px] text-white border-0 md:text-xl text-sm cursor-pointer"
                   >
                     Login
                   </Link>

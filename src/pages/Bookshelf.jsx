@@ -1,31 +1,38 @@
-import React, { useRef, useState } from "react";
-import { useLoaderData } from "react-router";
+import React, { useEffect, useRef, useState } from "react";
 import BookshelfCard from "../components/BookshelfCard";
 import { IoSearch } from "react-icons/io5";
 import axios from "axios";
 import SearchModalCard from "../components/SearchModalCard";
 import { easeInOut, motion } from "framer-motion";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Bookshelf = () => {
-  const books = useLoaderData();
+// const books = useLoaderData();
   const [modalBooks, setModalBooks] = useState([]);
-  // console.log(modalBooks);
+  const [allBooks, setAllBook] = useState([]);
+  const [loading, setLoading] = useState(true);
   const SearchRef = useRef();
   const filterRef = useRef();
 
+  useEffect(() => {
+    setLoading(true);
+    axios.get("https://virtual-bookshelf-server-cyan.vercel.app/books").then(res => {
+      setAllBook(res.data);
+      setLoading(false);
+    })
+  },[])
+
   const handleSearch = () => {
     const searchValue = SearchRef.current.value;
-    axios.get(`http://localhost:3000/search?q=${searchValue}`).then((res) => {
+    axios.get(`https://virtual-bookshelf-server-cyan.vercel.app/search?q=${searchValue}`).then((res) => {
       setModalBooks(res.data);
-      // console.log(res.data);
     });
-    console.log(searchValue);
     document.getElementById("my_modal_4").showModal();
   };
 
   const handleFilter = () => {
     const filterValue = filterRef.current.value;
-    axios.get(`http://localhost:3000/search?q=${filterValue}`).then((res) => {
+    axios.get(`https://virtual-bookshelf-server-cyan.vercel.app/search?q=${filterValue}`).then((res) => {
       setModalBooks(res.data);
       document.getElementById("my_modal_4").showModal();
     });
@@ -34,9 +41,11 @@ const Bookshelf = () => {
     <>
       <title>Bookshelf</title>
       <div className="bg-white">
-        <div>
+        {
+          loading ? <LoadingSpinner></LoadingSpinner> :
+          <div>
           <div className="pt-[30px] md:pt-0">
-            <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto">
+            <h1 className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto text-black">
               Book-shelf
             </h1>
             <p className="text-center text-gray-500">
@@ -66,7 +75,7 @@ const Bookshelf = () => {
             </div>
 
             <div className="flex items-center gap-2 w-full md:w-1/2 px-5">
-              <p className="w-fit">filter:➡️</p>
+              <p className="w-fit text-black">filter:➡️</p>
               <select
                 onChange={handleFilter}
                 defaultValue="Select a status"
@@ -82,11 +91,12 @@ const Bookshelf = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-5 max-w-7xl w-11/12 mx-auto my-[50px] md:my-[100px] rounded-[10px] p-4 bg-blue-50">
-            {books.map((data) => (
+            {allBooks.map((data) => (
               <BookshelfCard key={data._id} data={data}></BookshelfCard>
             ))}
           </div>
         </div>
+        }
 
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-6xl h-11/12 relative">

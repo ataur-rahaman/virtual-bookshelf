@@ -17,7 +17,7 @@ const AddBook = () => {
       upvote: Number(raw.upvote ?? 0),
     };
 
-    axios.post("http://localhost:3000/books", newBook).then((res) => {
+    axios.post("https://virtual-bookshelf-server-cyan.vercel.app/books", newBook).then((res) => {
       if (res.data.insertedId) {
         Swal.fire({
           position: "top-end",
@@ -35,7 +35,7 @@ const AddBook = () => {
     <>
       <title>Add Book</title>
       <div className="bg-white">
-        <h1 className='text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto'>Add Book</h1>
+        <h1 className='text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto text-black'>Add Book</h1>
         <div className="bg-blue-50 flex justify-center items-center max-w-7xl w-11/12 p-4 mx-auto rounded-[10px] mb-12">
         <form
           onSubmit={handleAddBook}

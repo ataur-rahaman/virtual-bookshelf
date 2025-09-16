@@ -9,7 +9,7 @@ const FeaturedCategory = () => {
   const [allBooks, setAllBooks] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/books").then((res) => {
+    axios.get("https://virtual-bookshelf-server-cyan.vercel.app/books").then((res) => {
       setAllBooks(res.data);
     });
   }, []);
@@ -30,7 +30,7 @@ const FeaturedCategory = () => {
         <motion.h1
           initial={{ scale: 1 }}
           whileHover={{ scale: 1.1, translateY: -14 }}
-          className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto"
+          className="text-4xl text-center mb-12 border-t-4 font-semibold border-blue-500 w-fit mx-auto text-black"
         >
           Categories
         </motion.h1>

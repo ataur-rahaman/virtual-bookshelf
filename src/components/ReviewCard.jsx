@@ -8,7 +8,7 @@ const ReviewCard = ({ data, handleDeleteReview, openUpdateModal }) => {
   const dateTime = created_at.split(", ");
   const date = dateTime[0];
   const time = dateTime[1];
-  console.log(new Date());
+  (new Date());
   return (
     <div>
       <div className="card bg-base-100 max-w-96 shadow-sm">

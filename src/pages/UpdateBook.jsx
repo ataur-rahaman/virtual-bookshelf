@@ -2,11 +2,14 @@ import React, { use } from "react";
 import { AuthContext } from "../contexts/AuthContext/AuthContext";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const UpdateBook = () => {
   const { user } = use(AuthContext);
   const location = useLocation();
   const { data } = location.state || {};
+  const axiosSecure = useAxiosSecure();
   const {
     _id,
     book_title,
@@ -32,8 +35,13 @@ const UpdateBook = () => {
       upvote: Number(raw.upvote ?? 0),
     };
 
-    axios.put(`http://localhost:3000/books/${_id}`, updatedBook).then((res) => {
+    axiosSecure.put(`/books/${_id}`, updatedBook).then((res) => {
       if (res.data.modifiedCount) {
+        Swal.fire({
+          title: "Updated!",
+          text: "Your book has been updated.",
+          icon: "success",
+        });
         navigate("/my-books");
       }
       form.reset();
